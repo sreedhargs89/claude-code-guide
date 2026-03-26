@@ -1,7 +1,6 @@
 # Example: Fetch API (Data Engineering)
 
-The data engineering variant of the `/fetch-api` skill. Mirrors the exact
-pattern demonstrated in the Claude Code masterclass — dimensional + fact table
+The data engineering variant of the `/fetch-api` skill — dimensional + fact table
 fetching, CSV output, row-count validation.
 
 ## What it does

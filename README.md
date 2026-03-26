@@ -2,7 +2,7 @@
 
 > **A one-stop study resource for mastering Claude Code** — from first principles to production-ready agentic workflows.
 
-Built from a 7-hour masterclass transcript. Every concept has a guide, a working skill, a cheatsheet, and a self-test quiz.
+Every concept has a guide, a working skill, a cheatsheet, and a self-test quiz.
 
 ---
 

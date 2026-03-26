@@ -41,7 +41,7 @@ Every Monday at 8:30am, before your week starts.
 
 ## Developer productivity patterns
 
-### PR review briefing (Senior dev pattern from the transcript)
+### PR review briefing
 ```
 /loop 30 8 * * 1-5 list all open pull requests in this repository. For each PR, provide: title, author, number of files changed, and a 2-sentence summary of what changed. Save the briefing to reports/pr-briefing-today.md
 ```
