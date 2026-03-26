@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env
+
+
+# Secrets
+.env
+*.key
+*.pem
+secrets.json
+
+# Claude Code session files
+.claude/tmp/
+.claude/memory.md
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Keep the output dirs tracked (with .gitkeep) but ignore their generated content
+# Note: must use glob form (data/*) not (data/) so negation of .gitkeep works
+data/*
+!data/.gitkeep
+logs/*
+!logs/.gitkeep
+reports/*
+!reports/.gitkeep

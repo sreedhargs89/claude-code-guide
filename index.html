@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code Guide — Masterclass Study Resource</title>
+  <meta name="description" content="A one-stop study resource for mastering Claude Code — from first principles to production-ready agentic workflows. 10 concept guides, working skills, cheatsheets, and self-test quizzes." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <style>
+    /* ── Reset & tokens ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --surface2:  #21262d;
+      --border:    #30363d;
+      --border2:   #21262d;
+      --text:      #e6edf3;
+      --muted:     #8b949e;
+      --faint:     #484f58;
+      --green:     #3fb950;
+      --green-dim: #238636;
+      --blue:      #58a6ff;
+      --blue-dim:  #1f6feb;
+      --orange:    #d29922;
+      --purple:    #bc8cff;
+      --pink:      #f778ba;
+      --red:       #f85149;
+      --radius:    6px;
+      --radius-lg: 10px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Navbar ───────────────────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,17,23,.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .nav-brand .prompt { color: var(--green); }
+    .nav-brand .cursor {
+      display: inline-block;
+      width: 8px; height: 15px;
+      background: var(--green);
+      animation: blink 1.2s step-end infinite;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: var(--radius);
+      transition: background .15s, color .15s;
+    }
+    .nav-links a:hover { background: var(--surface2); color: var(--text); text-decoration: none; }
+
+    .nav-gh {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      background: var(--surface2);
+      white-space: nowrap;
+      transition: border-color .15s, background .15s;
+    }
+    .nav-gh:hover { border-color: var(--blue); background: var(--surface); text-decoration: none; }
+    .nav-gh svg { flex-shrink: 0; }
+
+    /* ── Layout ───────────────────────────────────────────────────── */
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--border2); }
+
+    /* ── Hero ─────────────────────────────────────────────────────── */
+    .hero {
+      padding: 80px 0 64px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding: 4px 12px;
+      border: 1px solid var(--green-dim);
+      border-radius: 20px;
+      background: rgba(63,185,80,.06);
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+    .hero h1 .accent { color: var(--blue); }
+    .hero p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-family: var(--mono);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+    }
+    .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .badge.blue .dot  { background: var(--blue); }
+    .badge.orange .dot{ background: var(--orange); }
+    .badge.purple .dot{ background: var(--purple); }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      background: var(--green-dim);
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background .15s, border-color .15s;
+    }
+    .btn-primary:hover { background: var(--green); text-decoration: none; }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      transition: border-color .15s, background .15s;
+    }
+    .btn-secondary:hover { border-color: var(--blue); background: var(--surface); text-decoration: none; }
+
+    /* ── Section headings ─────────────────────────────────────────── */
+    .section-header { margin-bottom: 32px; }
+    .section-label {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+    .section-header p {
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    /* ── Install terminal ─────────────────────────────────────────── */
+    .install-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 680px) { .install-grid { grid-template-columns: 1fr; } }
+
+    .terminal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    .terminal-bar .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .terminal-bar .dot.r { background: #ff5f57; }
+    .terminal-bar .dot.y { background: #febc2e; }
+    .terminal-bar .dot.g { background: #28c840; }
+    .terminal-bar span {
+      margin-left: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .terminal-body {
+      padding: 16px 18px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .terminal-body .cmd::before { content: "$ "; color: var(--green); }
+    .terminal-body .comment { color: var(--faint); }
+    .terminal-body .out { color: var(--muted); padding-left: 12px; }
+    .terminal-body .section-title {
+      color: var(--orange);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: 14px;
+      margin-bottom: 2px;
+    }
+
+    /* ── Learning path table ──────────────────────────────────────── */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead th {
+      text-align: left;
+      padding: 10px 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--border2); transition: background .1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--surface); }
+    tbody td { padding: 11px 14px; vertical-align: middle; }
+    .num-cell {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--faint);
+      width: 36px;
+    }
+    .module-name { font-weight: 500; }
+    .link-group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-family: var(--mono);
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--blue);
+      transition: border-color .15s, background .15s, color .15s;
+      white-space: nowrap;
+    }
+    .pill:hover { border-color: var(--blue); background: rgba(88,166,255,.08); text-decoration: none; }
+    .pill.skill { color: var(--green); }
+    .pill.skill:hover { border-color: var(--green); background: rgba(63,185,80,.08); }
+    .pill.quiz  { color: var(--orange); }
+    .pill.quiz:hover  { border-color: var(--orange); background: rgba(210,153,34,.08); }
+    .pill.sheet { color: var(--purple); }
+    .pill.sheet:hover { border-color: var(--purple); background: rgba(188,140,255,.08); }
+    .pill.none  { color: var(--faint); border-style: dashed; cursor: default; }
+
+    /* ── Cards grid ───────────────────────────────────────────────── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color .15s, transform .15s;
+    }
+    .card:hover { border-color: var(--blue-dim); transform: translateY(-2px); }
+    .card-header { display: flex; align-items: center; gap: 10px; }
+    .card-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .card-icon.green { background: rgba(63,185,80,.12); }
+    .card-icon.blue  { background: rgba(88,166,255,.12); }
+    .card-icon.orange{ background: rgba(210,153,34,.12); }
+    .card-icon.purple{ background: rgba(188,140,255,.12); }
+    .card-icon.pink  { background: rgba(247,120,186,.12); }
+    .card-title { font-weight: 600; font-size: 15px; }
+    .card-slash { font-family: var(--mono); font-size: 12px; color: var(--green); margin-top: 1px; }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; flex: 1; }
+    .card-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .card-link {
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--blue);
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface2);
+      transition: border-color .12s, background .12s;
+    }
+    .card-link:hover { border-color: var(--blue); background: rgba(88,166,255,.08); text-decoration: none; }
+
+    /* ── Cheatsheet list ──────────────────────────────────────────── */
+    .sheet-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .sheet-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      transition: border-color .15s, background .15s;
+    }
+    .sheet-item:hover { border-color: var(--purple); background: rgba(188,140,255,.04); text-decoration: none; }
+    .sheet-item .icon { font-size: 20px; flex-shrink: 0; }
+    .sheet-item .info { min-width: 0; }
+    .sheet-item .info strong { display: block; font-size: 14px; color: var(--text); }
+    .sheet-item .info span { font-size: 12px; color: var(--muted); }
+
+    /* ── Phase timeline ───────────────────────────────────────────── */
+    .phases { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .phase {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+    .phase-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .phase-tag.p1 { background: rgba(63,185,80,.1);  color: var(--green);  border: 1px solid var(--green-dim); }
+    .phase-tag.p2 { background: rgba(88,166,255,.1); color: var(--blue);   border: 1px solid var(--blue-dim); }
+    .phase-tag.p3 { background: rgba(210,153,34,.1); color: var(--orange); border: 1px solid #7d4e00; }
+    .phase h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .phase p { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+    .phase .time { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+
+    /* ── Audience table ───────────────────────────────────────────── */
+    .audience { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 8px; }
+    .aud-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+    }
+    .aud-card .label { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .aud-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Footer ───────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--faint);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+    footer .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+
+    /* ── Responsive ───────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 48px 0 40px; }
+      section { padding: 44px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-brand">
+    <span class="prompt">❯</span> claude-code-guide<span class="cursor"></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#quickstart">Quick Start</a></li>
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#examples">Examples</a></li>
+    <li><a href="#cheatsheets">Cheatsheets</a></li>
+    <li><a href="#path">Learning Path</a></li>
+  </ul>
+  <a class="nav-gh" href="https://github.com/sreedhargs89/claude-code-guide" target="_blank" rel="noopener">
+    <svg height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub
+  </a>
+</nav>
+
+<!-- ═══════════════════════════ HERO ══════════════════════════════ -->
+<div class="wrapper">
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span>⚡</span> Claude Code Masterclass
+    </div>
+    <h1>Master <span class="accent">Claude Code</span><br>from first principles</h1>
+    <p>A one-stop study resource built from a 7-hour masterclass transcript. Every concept has a guide, a working skill, a cheatsheet, and a self-test quiz.</p>
+
+    <div class="hero-badges">
+      <span class="badge"><span class="dot"></span>10 Concept Guides</span>
+      <span class="badge blue"><span class="dot"></span>6 Ready-to-use Skills</span>
+      <span class="badge orange"><span class="dot"></span>10 Module Quizzes</span>
+      <span class="badge purple"><span class="dot"></span>5 Cheatsheets</span>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn-primary" href="#quickstart">Get Started →</a>
+      <a class="btn-secondary" href="https://github.com/sreedhargs89/claude-code-guide" target="_blank" rel="noopener">
+        <svg height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        View on GitHub
+      </a>
+      <a class="btn-secondary" href="LEARNING_PATH.md">Learning Path</a>
+    </div>
+  </div>
+
+<!-- ══════════════════════ WHO IS THIS FOR ════════════════════════ -->
+  <section id="audience">
+    <div class="section-header">
+      <span class="section-label">Who is this for?</span>
+      <h2>Built for every developer</h2>
+      <p>No prior Claude knowledge required. Start wherever you are.</p>
+    </div>
+    <div class="audience">
+      <div class="aud-card">
+        <div class="label">🌱 Complete beginners</div>
+        <p>Clear explanations from zero. Every term is defined. No assumed knowledge.</p>
+      </div>
+      <div class="aud-card">
+        <div class="label">⚙️ Data engineers / analysts</div>
+        <p>Real-world skills for Airflow, PySpark, HTTPX APIs, and ETL pipelines.</p>
+      </div>
+      <div class="aud-card">
+        <div class="label">🔧 General developers</div>
+        <p>Generic versions of every example that work in any stack or language.</p>
+      </div>
+    </div>
+  </section>
+
+<!-- ═══════════════════════ QUICK START ══════════════════════════ -->
+  <section id="quickstart">
+    <div class="section-header">
+      <span class="section-label">Quick Start</span>
+      <h2>Up and running in minutes</h2>
+      <p>Prerequisites: basic Python knowledge. That's it.</p>
+    </div>
+    <div class="install-grid">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span>macOS / Linux</span>
+        </div>
+        <div class="terminal-body">
+          <div class="comment"># 1. Clone the repo</div>
+          <div class="cmd">git clone https://github.com/sreedhargs89/claude-code-guide.git</div>
+          <div class="cmd">cd claude-code-guide</div>
+          <br>
+          <div class="comment"># 2. Set up Python environment</div>
+          <div class="cmd">python -m venv .venv &amp;&amp; source .venv/bin/activate</div>
+          <div class="cmd">pip install -r requirements.txt</div>
+          <br>
+          <div class="comment"># 3. Install Claude Code</div>
+          <div class="cmd">npm install -g @anthropic-ai/claude-code</div>
+          <div class="comment"># — or via Homebrew —</div>
+          <div class="cmd">brew install anthropic/tap/claude</div>
+          <br>
+          <div class="comment"># 4. Verify</div>
+          <div class="cmd">claude --version</div>
+        </div>
+      </div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span>Windows (PowerShell)</span>
+        </div>
+        <div class="terminal-body">
+          <div class="comment"># 1. Clone the repo</div>
+          <div class="cmd">git clone https://github.com/sreedhargs89/claude-code-guide.git</div>
+          <div class="cmd">cd claude-code-guide</div>
+          <br>
+          <div class="comment"># 2. Set up Python environment</div>
+          <div class="cmd">python -m venv .venv; .venv\Scripts\activate</div>
+          <div class="cmd">pip install -r requirements.txt</div>
+          <br>
+          <div class="comment"># 3. Install Claude Code</div>
+          <div class="cmd">iwr https://claude.ai/install | iex</div>
+          <br>
+          <div class="comment"># If 'claude' not found, add install</div>
+          <div class="comment"># directory to PATH (see Module 03)</div>
+          <br>
+          <div class="comment"># 4. Verify</div>
+          <div class="cmd">claude --version</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- ═══════════════════════ MODULES TABLE ════════════════════════ -->
+  <section id="modules">
+    <div class="section-header">
+      <span class="section-label">Curriculum</span>
+      <h2>10 Concept Modules</h2>
+      <p>Follow in order or jump to what you need. Each module links to its guide, skills, quiz, and cheatsheet.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Module</th>
+            <th>Guide</th>
+            <th>Skills</th>
+            <th>Quiz</th>
+            <th>Cheatsheet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num-cell">01</td>
+            <td class="module-name">Claude models &amp; ecosystem</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/01-claude-models.md">📖 Guide</a></td>
+            <td><span class="pill none">—</span></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-01.md">📝 Quiz</a></td>
+            <td><span class="pill none">—</span></td>
+          </tr>
+          <tr>
+            <td class="num-cell">02</td>
+            <td class="module-name">Claude Code architecture</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/02-architecture.md">📖 Guide</a></td>
+            <td><span class="pill none">—</span></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-02.md">📝 Quiz</a></td>
+            <td><span class="pill none">—</span></td>
+          </tr>
+          <tr>
+            <td class="num-cell">03</td>
+            <td class="module-name">Installation &amp; setup</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/03-installation.md">📖 Guide</a></td>
+            <td><span class="pill none">—</span></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-03.md">📝 Quiz</a></td>
+            <td><a class="pill sheet" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/commands.md">⚡ Commands</a></td>
+          </tr>
+          <tr>
+            <td class="num-cell">04</td>
+            <td class="module-name">CLAUDE.md</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/04-claude-md.md">📖 Guide</a></td>
+            <td><span class="pill none">—</span></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-04.md">📝 Quiz</a></td>
+            <td><a class="pill sheet" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/claude-md-template.md">⚡ Template</a></td>
+          </tr>
+          <tr>
+            <td class="num-cell">05</td>
+            <td class="module-name">Skills</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/05-skills.md">📖 Guide</a></td>
+            <td class="link-group">
+              <a class="pill skill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/fetch-api/skill.md">/fetch-api</a>
+              <a class="pill skill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/migrate-data/skill.md">/migrate-data</a>
+              <a class="pill skill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/visualize/skill.md">/visualize</a>
+            </td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-05.md">📝 Quiz</a></td>
+            <td><a class="pill sheet" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/skill-template.md">⚡ Template</a></td>
+          </tr>
+          <tr>
+            <td class="num-cell">06</td>
+            <td class="module-name">Sub-agents &amp; memory</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/06-agents.md">📖 Guide</a></td>
+            <td><a class="pill skill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/readme-gen/skill.md">/readme-gen</a></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-06.md">📝 Quiz</a></td>
+            <td><span class="pill none">—</span></td>
+          </tr>
+          <tr>
+            <td class="num-cell">07</td>
+            <td class="module-name">Hooks</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/07-hooks.md">📖 Guide</a></td>
+            <td><a class="pill skill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/code-review/skill.md">/code-review</a></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-07.md">📝 Quiz</a></td>
+            <td><span class="pill none">—</span></td>
+          </tr>
+          <tr>
+            <td class="num-cell">08</td>
+            <td class="module-name">Scheduling</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/08-scheduling.md">📖 Guide</a></td>
+            <td><a class="pill skill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/schedule-task/skill.md">/schedule-task</a></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-08.md">📝 Quiz</a></td>
+            <td><a class="pill sheet" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/cron-syntax.md">⚡ Cron syntax</a></td>
+          </tr>
+          <tr>
+            <td class="num-cell">09</td>
+            <td class="module-name">MCP servers</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/09-mcp.md">📖 Guide</a></td>
+            <td><span class="pill none">—</span></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-09.md">📝 Quiz</a></td>
+            <td><a class="pill sheet" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/mcp-config.md">⚡ MCP config</a></td>
+          </tr>
+          <tr>
+            <td class="num-cell">10</td>
+            <td class="module-name">Plugins &amp; marketplace</td>
+            <td><a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/docs/10-plugins.md">📖 Guide</a></td>
+            <td><span class="pill none">—</span></td>
+            <td><a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/module-10.md">📝 Quiz</a></td>
+            <td><span class="pill none">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:16px;">
+      <a class="pill quiz" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/all-modules.md" style="display:inline-flex;">📚 All modules quiz</a>
+      &nbsp;
+      <a class="pill" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/quizzes/answers.md" style="display:inline-flex;">✅ Answer key</a>
+    </div>
+  </section>
+
+<!-- ════════════════════════ SKILLS ══════════════════════════════ -->
+  <section id="skills">
+    <div class="section-header">
+      <span class="section-label">Skills</span>
+      <h2>Drop-in skill.md templates</h2>
+      <p>Copy any skill into your project's <code style="font-family:var(--mono);font-size:12px;background:var(--surface2);padding:2px 6px;border-radius:4px;">.claude/skills/</code> folder and trigger it with a slash command.</p>
+    </div>
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon green">🌐</div>
+          <div>
+            <div class="card-title">Fetch API</div>
+            <div class="card-slash">/fetch-api</div>
+          </div>
+        </div>
+        <p class="card-desc">Fetch data from REST endpoints asynchronously. Saves responses to timestamped directories, handles retries, and logs all HTTP activity.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/fetch-api/skill.md">skill.md</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/fetch-api/scripts/fetch_data.py">script</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/fetch-api/references/error-guide.md">error guide</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon blue">🔄</div>
+          <div>
+            <div class="card-title">Migrate Data</div>
+            <div class="card-slash">/migrate-data</div>
+          </div>
+        </div>
+        <p class="card-desc">Convert data files between CSV, Parquet, and JSON. Works on single files or entire directories. Preserves schema and handles encoding edge cases.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/migrate-data/skill.md">skill.md</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/migrate-data/scripts/migrate_data.py">script</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon orange">📊</div>
+          <div>
+            <div class="card-title">Visualize</div>
+            <div class="card-slash">/visualize</div>
+          </div>
+        </div>
+        <p class="card-desc">Generate charts from data files using matplotlib and seaborn. Auto-detects data shape and picks appropriate chart types.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/visualize/skill.md">skill.md</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/visualize/scripts/visualize.py">script</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon purple">📝</div>
+          <div>
+            <div class="card-title">README Gen</div>
+            <div class="card-slash">/readme-gen</div>
+          </div>
+        </div>
+        <p class="card-desc">Auto-generate a README for any project. Scans the codebase structure, infers purpose, and writes a complete markdown README.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/readme-gen/skill.md">skill.md</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon pink">🔍</div>
+          <div>
+            <div class="card-title">Code Review</div>
+            <div class="card-slash">/code-review</div>
+          </div>
+        </div>
+        <p class="card-desc">Review recent code changes for bugs, style violations, and security issues. Triggered by hooks on file save or manually on demand.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/code-review/skill.md">skill.md</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/code-review/references/common-issues.md">common issues</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon green">🗓️</div>
+          <div>
+            <div class="card-title">Schedule Task</div>
+            <div class="card-slash">/schedule-task</div>
+          </div>
+        </div>
+        <p class="card-desc">Set up a recurring <code style="font-size:11px;background:var(--surface2);padding:1px 5px;border-radius:3px;">/loop</code> scheduled job. Configure cron expressions, manage job IDs, and cancel tasks.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/skills/schedule-task/skill.md">skill.md</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+<!-- ════════════════════════ EXAMPLES ════════════════════════════ -->
+  <section id="examples">
+    <div class="section-header">
+      <span class="section-label">Examples</span>
+      <h2>Working code — two variants</h2>
+      <p>Every example ships as a <strong>generic</strong> version (any stack) and a <strong>data-engineering</strong> version (Airflow/PySpark flavour).</p>
+    </div>
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon green">🌐</div>
+          <div><div class="card-title">Fetch API</div></div>
+        </div>
+        <p class="card-desc">Async HTTP fetch with httpx. Saves results to timestamped output dirs. Demonstrates error handling and retry logic.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/fetch-api/generic">generic/</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/fetch-api/data-engineering">data-eng/</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon blue">🔄</div>
+          <div><div class="card-title">Data Migration</div></div>
+        </div>
+        <p class="card-desc">CSV ↔ Parquet ↔ JSON conversion with pandas and pyarrow. Handles large files, custom delimiters, and schema validation.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/data-migration/generic">generic/</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/data-migration/data-engineering">data-eng/</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon orange">📊</div>
+          <div><div class="card-title">Visualize</div></div>
+        </div>
+        <p class="card-desc">Auto-generate charts from data files. Bar, line, scatter, and heatmap. Saves PNGs to reports/ directory.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/visualize/generic">generic/</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/visualize/data-engineering">data-eng/</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon purple">🪝</div>
+          <div><div class="card-title">Hooks</div></div>
+        </div>
+        <p class="card-desc">Example hook configurations — PostEdit lint triggers, PreTool guards, and SessionStart injections.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/hooks">examples/hooks/</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon pink">🤖</div>
+          <div><div class="card-title">Sub-agents</div></div>
+        </div>
+        <p class="card-desc">Demonstrates spawning parallel sub-agents for independent tasks and collecting their results.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/sub-agents">examples/sub-agents/</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon green">🔌</div>
+          <div><div class="card-title">MCP Servers</div></div>
+        </div>
+        <p class="card-desc">Local and hosted MCP server configurations. Connect Claude Code to external tools via the Model Context Protocol.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/mcp-local">local MCP</a>
+          <a class="card-link" href="https://github.com/sreedhargs89/claude-code-guide/tree/main/examples/mcp-hosted">hosted MCP</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+<!-- ══════════════════════ CHEATSHEETS ═══════════════════════════ -->
+  <section id="cheatsheets">
+    <div class="section-header">
+      <span class="section-label">Cheatsheets</span>
+      <h2>Quick-reference cards</h2>
+      <p>Dense, not verbose. Keep these open while you work.</p>
+    </div>
+    <div class="sheet-list">
+      <a class="sheet-item" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/commands.md">
+        <span class="icon">⚡</span>
+        <div class="info">
+          <strong>Commands &amp; Slash Commands</strong>
+          <span>Full slash command reference + keyboard shortcuts</span>
+        </div>
+      </a>
+      <a class="sheet-item" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/claude-md-template.md">
+        <span class="icon">📄</span>
+        <div class="info">
+          <strong>CLAUDE.md Template</strong>
+          <span>Ready-to-copy project instruction template</span>
+        </div>
+      </a>
+      <a class="sheet-item" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/skill-template.md">
+        <span class="icon">🎯</span>
+        <div class="info">
+          <strong>Skill Template</strong>
+          <span>YAML header + step format for new skills</span>
+        </div>
+      </a>
+      <a class="sheet-item" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/cron-syntax.md">
+        <span class="icon">⏰</span>
+        <div class="info">
+          <strong>Cron Syntax</strong>
+          <span>Scheduling expressions with examples</span>
+        </div>
+      </a>
+      <a class="sheet-item" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/mcp-config.md">
+        <span class="icon">🔌</span>
+        <div class="info">
+          <strong>MCP Config</strong>
+          <span>JSON config patterns for local &amp; hosted MCP servers</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+<!-- ═══════════════════════ LEARNING PATH ════════════════════════ -->
+  <section id="path">
+    <div class="section-header">
+      <span class="section-label">Learning Path</span>
+      <h2>From zero to confident in ~13 hours</h2>
+      <p>Three phases. Follow them in order or use as a checklist.</p>
+    </div>
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-tag p1">Phase 1 · Days 1–3</div>
+        <h3>Foundation</h3>
+        <p>Understand what Claude Code is, get it installed, and write your first CLAUDE.md.</p>
+        <div class="time">~3 hours · Modules 01–04</div>
+      </div>
+      <div class="phase">
+        <div class="phase-tag p2">Phase 2 · Days 4–7</div>
+        <h3>Core Tools</h3>
+        <p>Build real skills, delegate to sub-agents, and configure hooks that fire automatically.</p>
+        <div class="time">~6 hours · Modules 05–07</div>
+      </div>
+      <div class="phase">
+        <div class="phase-tag p3">Phase 3 · Days 8–10</div>
+        <h3>Automation</h3>
+        <p>Schedule work with cron, connect external tools via MCP, and explore the plugin marketplace.</p>
+        <div class="time">~4 hours · Modules 08–10</div>
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <a class="btn-secondary" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/LEARNING_PATH.md">
+        View full learning path →
+      </a>
+    </div>
+  </section>
+
+<!-- ════════════════════════ CONTRIBUTE ══════════════════════════ -->
+  <section id="contribute">
+    <div class="section-header">
+      <span class="section-label">Contributing</span>
+      <h2>PRs welcome</h2>
+      <p>Especially new skill templates, additional examples, and corrections — Claude Code evolves fast.</p>
+    </div>
+    <div class="cards" style="grid-template-columns: repeat(auto-fill, minmax(220px,1fr));">
+      <div class="card" style="gap:8px;">
+        <div style="font-size:20px;">🎯</div>
+        <div class="card-title">New skills</div>
+        <p class="card-desc">Add a folder to <code style="font-size:11px;background:var(--surface2);padding:1px 5px;border-radius:3px;">skills/</code> following the <a href="https://github.com/sreedhargs89/claude-code-guide/blob/main/cheatsheets/skill-template.md">skill template</a>.</p>
+      </div>
+      <div class="card" style="gap:8px;">
+        <div style="font-size:20px;">🔧</div>
+        <div class="card-title">New examples</div>
+        <p class="card-desc">Add to <code style="font-size:11px;background:var(--surface2);padding:1px 5px;border-radius:3px;">examples/</code> — include both <code style="font-size:11px;background:var(--surface2);padding:1px 5px;border-radius:3px;">generic/</code> and <code style="font-size:11px;background:var(--surface2);padding:1px 5px;border-radius:3px;">data-engineering/</code> variants.</p>
+      </div>
+      <div class="card" style="gap:8px;">
+        <div style="font-size:20px;">📝</div>
+        <div class="card-title">Corrections</div>
+        <p class="card-desc">Fix anything stale in the docs. Open a GitHub issue with what's wrong and what's correct.</p>
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <a class="btn-secondary" href="https://github.com/sreedhargs89/claude-code-guide/blob/main/CONTRIBUTING.md">Read CONTRIBUTING.md →</a>
+    </div>
+  </section>
+</div><!-- /wrapper -->
+
+<!-- ════════════════════════ FOOTER ══════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <span>MIT License · Free to use and adapt</span>
+    <span style="color:var(--border)">·</span>
+    <a href="https://github.com/sreedhargs89/claude-code-guide">github.com/sreedhargs89/claude-code-guide</a>
+    <span style="color:var(--border)">·</span>
+    <a href="https://github.com/sreedhargs89/claude-code-guide/blob/main/CONTRIBUTING.md">Contributing</a>
+    <span style="color:var(--border)">·</span>
+    <a href="https://github.com/sreedhargs89/claude-code-guide/issues">Issues</a>
+    <span style="color:var(--border)">·</span>
+    <span>Built from a 7-hour Claude Code masterclass</span>
+  </div>
+</footer>
+
+</body>
+</html>
