@@ -154,4 +154,4 @@ Models → Architecture → Install → CLAUDE.md
 
 The next step is to build something real. Pick one task you do every week, create a skill for it, and run it for a month. That's when it clicks.
 
-Revisit [LEARNING_PATH.md](../LEARNING_PATH.md) for recommended practice exercises.
+Revisit [LEARNING_PATH.md](https://github.com/sreedhargs89/claude-code-guide/blob/main/LEARNING_PATH.md) for recommended practice exercises.

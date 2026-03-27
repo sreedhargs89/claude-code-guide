@@ -26,6 +26,9 @@ secrets.json
 .claude/tmp/
 .claude/memory.md
 
+# Social / marketing assets (local only)
+linkedin/
+
 # OS
 .DS_Store
 Thumbs.db
